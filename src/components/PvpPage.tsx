@@ -564,14 +564,26 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
 
   return (
     <div className="app zone-mode" style={{ minHeight: "100vh", background: "#f3f4f6", backgroundImage: "linear-gradient(rgba(15,23,42,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(15,23,42,.06) 1px,transparent 1px)", backgroundSize: "32px 32px" }}>
-      <style>{`@keyframes pvpSpinIn { from { transform: rotate(-360deg); } to { transform: rotate(0); } }`}</style>
+      <style>{`
+        @keyframes pvpSpinIn { from { transform: rotate(-360deg); } to { transform: rotate(0); } }
+        .pvp-grid { display: grid; grid-template-columns: 320px 1fr 320px; gap: 22px; align-items: start; }
+        .pvp-grid > .pvp-col-bet { order: 2; }
+        .pvp-grid > .pvp-col-wheel { order: 1; min-width: 0; }
+        .pvp-grid > .pvp-col-ended { order: 3; }
+        .pvp-wheel-box { min-height: 600px; padding: 24px; }
+        @media (max-width: 900px) {
+          .pvp-grid { grid-template-columns: 1fr; gap: 14px; }
+          .pvp-wheel-box { min-height: 0; padding: 12px; }
+          .pvp-topbar-drand { min-width: 0 !important; }
+        }
+      `}</style>
       <div className="topbar">
         <div className="logo" style={{ cursor: "pointer" }} onClick={onBack}>
           <img src="https://raw.githubusercontent.com/dopedopex/your-friendly-helper/main/logo.png" alt="" width={36} height={36} style={{ borderRadius: 10, objectFit: "cover" }} />
           <div><h1>Bets<b>On</b>Block</h1></div>
         </div>
         <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "0 16px" }}>
-          <div style={{
+          <div className="pvp-topbar-drand" style={{
             background: "#ffffff", border: "2px solid #0f172a",
             borderRadius: 12, padding: "8px 14px", boxShadow: "3px 3px 0 0 rgba(15,23,42,.9)", color: "#0f172a",
             display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14,
@@ -605,8 +617,9 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
 
 
 
-        <div style={{ display: "grid", gridTemplateColumns: "320px 1fr 320px", gap: 22, alignItems: "start" }}>
+        <div className="pvp-grid">
           {/* BET PANEL */}
+          <div className="pvp-col-bet">
           <BetPanel
             roundId={status?.round_id ?? null}
             statusLabel={isOpen ? "Mining Open" : isLocked ? "Verifying" : isCooldown ? "Resolving" : "—"}
@@ -625,17 +638,17 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
             onStartAuto={(cfg) => { lastAutoBetRoundRef.current = null; setAutoCfg(cfg); }}
             onStopAuto={() => setAutoCfg(null)}
           />
+          </div>
 
           {/* WHEEL COLUMN */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div className="pvp-col-wheel" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* WHEEL */}
-            <div style={{
+            <div className="pvp-wheel-box" style={{
               background: "radial-gradient(ellipse at center, #ffffff 0%, #f1f3f7 75%)",
               border: "2px solid #0f172a", borderRadius: 22,
               boxShadow: "4px 4px 0 0 rgba(15,23,42,.9)",
-              padding: 24,
               display: "flex", justifyContent: "center", alignItems: "center",
-              position: "relative", minHeight: 600,
+              position: "relative",
             }}>
               <PvpWheelVisual
                 size={SIZE}
@@ -676,7 +689,9 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
           </div>
 
           {/* ENDED ROUNDS (right column) */}
-          <EndedRoundsPanel history={history} loading={historyLoading} onVerify={openVerify} />
+          <div className="pvp-col-ended">
+            <EndedRoundsPanel history={history} loading={historyLoading} onVerify={openVerify} />
+          </div>
         </div>
 
         
