@@ -583,7 +583,7 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
           <div><h1>Bets<b>On</b>Block</h1></div>
         </div>
         <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "0 16px" }}>
-          <div style={{
+          <div className="pvp-topbar-drand" style={{
             background: "#ffffff", border: "2px solid #0f172a",
             borderRadius: 12, padding: "8px 14px", boxShadow: "3px 3px 0 0 rgba(15,23,42,.9)", color: "#0f172a",
             display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14,
