@@ -617,8 +617,9 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
 
 
 
-        <div style={{ display: "grid", gridTemplateColumns: "320px 1fr 320px", gap: 22, alignItems: "start" }}>
+        <div className="pvp-grid">
           {/* BET PANEL */}
+          <div className="pvp-col-bet">
           <BetPanel
             roundId={status?.round_id ?? null}
             statusLabel={isOpen ? "Mining Open" : isLocked ? "Verifying" : isCooldown ? "Resolving" : "—"}
@@ -637,17 +638,17 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
             onStartAuto={(cfg) => { lastAutoBetRoundRef.current = null; setAutoCfg(cfg); }}
             onStopAuto={() => setAutoCfg(null)}
           />
+          </div>
 
           {/* WHEEL COLUMN */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div className="pvp-col-wheel" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* WHEEL */}
-            <div style={{
+            <div className="pvp-wheel-box" style={{
               background: "radial-gradient(ellipse at center, #ffffff 0%, #f1f3f7 75%)",
               border: "2px solid #0f172a", borderRadius: 22,
               boxShadow: "4px 4px 0 0 rgba(15,23,42,.9)",
-              padding: 24,
               display: "flex", justifyContent: "center", alignItems: "center",
-              position: "relative", minHeight: 600,
+              position: "relative",
             }}>
               <PvpWheelVisual
                 size={SIZE}
@@ -688,7 +689,9 @@ export default function PvpPage({ onBack, onAbout }: { onBack: () => void; onAbo
           </div>
 
           {/* ENDED ROUNDS (right column) */}
-          <EndedRoundsPanel history={history} loading={historyLoading} onVerify={openVerify} />
+          <div className="pvp-col-ended">
+            <EndedRoundsPanel history={history} loading={historyLoading} onVerify={openVerify} />
+          </div>
         </div>
 
         
